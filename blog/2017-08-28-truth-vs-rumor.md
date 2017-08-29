@@ -49,6 +49,7 @@ or didn't use it as they should or used a wrong set of metrics for their measure
 I've seen people who claim their tool which they're using is the best tool ever because they are using it and they attached to it and refuse to admit that there
 might be a better tool.
 
-You might ask: "What's your solution then ?", and my answer would be I don't know. But personaly I do as following when i want to verify something on the Internet:
-
-* A background check on the author or the source
+## What's the solution then ?
+There's no definate solution. But what we can do is to perform some actions before feding something to our minds. Personally if the subject isn't important
+I just skip it until it comes up again and again. Then I treat it as an important subject. In case of important subjects a background check on the author
+or the source is mandatory. By background check I don't mean to only verify the existance of the person or a valid source, beside existance is

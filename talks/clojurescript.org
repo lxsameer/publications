@@ -1,0 +1,110 @@
+* Points
+** I'm here to share an interesting experience
+* Ecosystem
+** Core.async
+** SourceMaps
+** Figwheel
+** cljx/cljc
+** Om
+** Re-frame
+** CLJSjs
+** Transit
+** Planck
+** Devcards
+* Syntax
+** Javascript syntax is getting scary
+*** Javascript operators table
+*** clojruescript does not need one
+** Get the code from Derek presentation
+* Community
+** Small but helpful
+** It's growing
+** Stars on Github and responds on stackoverflow
+* Source code size
+** JQuery 29k
+** Cljs 23k
+   and it includes overhead of persisten data structure
+
+* Interop
+** CLJSjs
+** CLJS to JS ?
+   :export key on meta data
+** Transit instead of JSON
+* Can I trust it
+
+* Performance
+** https://swannodette.github.io/2013/12/17/the-future-of-javascript-mvcs
+** is It slow ?
+*** If you take a look at compiled file, it's just js cljs didn't re invenst the wheel
+    it has the same performance.
+** what about the datastructures ?
+*** Checkout React performance page.
+    The most advance tip is to use immutable JS
+**** Shallow copy is cheaper than deep copy and stuff like that
+* Types
+** Typehinting
+** Use types where they make sence
+** Clojure.spec
+*** JS
+**** People try to validate data most of the time using libraries
+     which are heavy most of the time.
+**** form validation is an example
+**** People are excited about Typescript because using something like static type
+     checking help them to reason about whether or not their program is correct.
+**** Also having types help the next guy to have more information about the code
+**** People use types to specify their inputs and outputs and try to demonstrate how
+     their function should work.
+**** But using types doesn't make scense in every places.
+**** types can be pain too. In certain situation your problem is not your logic it's your type system
+*** CLJS
+**** Create specification for your code.
+**** QuickCheck
+*** TDD
+**** I'm not a fan
+**** people try to reason about their programs
+**** they try to create specification for their programs throught test cases
+
+* QuickCheck
+** spec and quick check ( Put the video link of john's talk)
+
+* Editors
+** Emacs
+** Cursives
+** IntellJ
+** Vim
+** LightTable
+** Parinfer
+* Debugging
+** It's not messy at all Devtools already supports it
+* Tooling
+** JS community
+   You have to know lots of stuff and it's tough to choose several of them.
+   That's because there are lots of tools to bootstrap your project.
+** CLJS
+   You only need to learn just one new tool. That's it.
+* Documentation
+* Charts
+** JS Tech trends
+*** Angular / React  blah blah blah
+
+* We do betters
+** Templates
+**** templates are cool because designer can create them and pass them to JS devs. does anyone do that?
+**** For SPA application templates are really complicated. <GET a picture of a template>
+*** Data as template It's easy
+** Figwheel workflow
+** Devcards
+** Core.async and callback hell
+*** What about Promises ?
+    No still callbacks with sugar quote aroud it.
+*** Channels are awesome. <WRITE SOME CODE>
+** JS and Standard library
+*** There is no stdlib for js ( date , partitione ....)
+** Well written and awesome stdlib for cljs base on closure
+
+* Massiv productio javascript code
+** Advance compilation and dead code elimination
+** JS ecosystem has webpack and rollup but they not as good as google closure
+   because it order to do dead code elimination you need to change the way you write
+   your code. JS recently supports modules but not in runtime
+** Check out the configuration for clojurescript about building different modules
