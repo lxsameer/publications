@@ -1,5 +1,6 @@
 * Points
 ** I'm here to share an interesting experience
+** JS is there for about 15 years now and it will be there because they can't change it, they can't break the internet
 * Ecosystem
 ** Core.async
 ** SourceMaps
@@ -25,6 +26,8 @@
 ** Cljs 23k
    and it includes overhead of persisten data structure
 
+* Google Closure
+* React
 * Interop
 ** CLJSjs
 ** CLJS to JS ?

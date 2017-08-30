@@ -1,0 +1,124 @@
+* Currently
+** We're using re-frame
+*** It's greate But
+**** Event cascading and complexity
+** People don't include UI in the whole system
+   or try to reat it like other components of the system
+
+* Data model
+** UI should as for the data in the way it needs. It should be able to predict the data format it's going to get
+** Back pressure
+* why HellHound
+** My use cases
+*** Realtime data (events, market data)
+*** process large amount of data
+*** Serve correct data or nothing (no outdated or relatively correct data )
+*** Available as much and possible
+**** Fault tolerance
+*** Easy to extend
+*** Easy to scale
+** I love free/open source software so i want to contribute to it
+** Properties I needed based on the use case
+*** Scalable
+**** Stateless
+**** async
+*** Fault tolarance
+*** Dispatch jobs to a worker
+*** stream support
+*** Extendable
+**** data everywhere
+
+* Server Side
+** Why Clojure
+* Client Side
+** Why ClojureScript
+** Relay/GraphQL/Falcor blah blah blah
+* Why websocket
+1) Why is the WebSockets protocol better?
+
+WebSockets is better for situations that involve low-latency communication especially for low latency for client to server messages. For server to client data you can get fairly low latency using long-held connections and chunked transfer. However, this doesn't help with client to server latency which requires a new connection to be established for each client to server message.
+
+Your 48 byte HTTP handshake is not realistic for real-world HTTP browser connections where there is often several kilobytes of data sent as part of the request (in both directions) including many headers and cookie data. Here is an example of a request/response to using Chrome:
+
+Example request (2800 bytes including cookie data, 490 bytes without cookie data):
+
+GET / HTTP/1.1
+Host: www.cnn.com
+Connection: keep-alive
+Cache-Control: no-cache
+Pragma: no-cache
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.68 Safari/537.17
+Accept-Encoding: gzip,deflate,sdch
+Accept-Language: en-US,en;q=0.8
+Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.3
+Cookie: [[[2428 byte of cookie data]]]
+Example response (355 bytes):
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Wed, 13 Feb 2013 18:56:27 GMT
+Content-Type: text/html
+Transfer-Encoding: chunked
+Connection: keep-alive
+Set-Cookie: CG=US:TX:Arlington; path=/
+Last-Modified: Wed, 13 Feb 2013 18:55:22 GMT
+Vary: Accept-Encoding
+Cache-Control: max-age=60, private
+Expires: Wed, 13 Feb 2013 18:56:54 GMT
+Content-Encoding: gzip
+Both HTTP and WebSockets have equivalent sized initial connection handshakes, but with a WebSocket connection the initial handshake is performed once and then small messages only have 6 bytes of overhead (2 for the header and 4 for the mask value). The latency overhead is not so much from the size of the headers, but from the logic to parse/handle/store those headers. In addition, the TCP connection setup latency is probably a bigger factor than the size or processing time for each request.
+
+2) Why was it implemented instead of updating HTTP protocol?
+
+There are efforts to re-engineer the HTTP protocol to achieve better performance and lower latency such as SPDY, HTTP 2.0 and QUIC. This will improve the situation for normal HTTP requests, but it is likely that WebSockets and/or WebRTC DataChannel will still have lower latency for client to server data transfer than HTTP protocol (or it will be used in a mode that looks a lot like WebSockets anyways).
+
+Update:
+
+Here is a framework for thinking about web protocols:
+
+TCP: low-level, bi-directional, full-duplex, and guaranteed order transport layer. No browser support (except via plugin/Flash).
+HTTP 1.0: request-response transport protocol layered on TCP. The client makes one full request, the server gives one full response, and then the connection is closed. The request methods (GET, POST, HEAD) have specific transactional meaning for resources on the server.
+HTTP 1.1: maintains the request-response nature of HTTP 1.0, but allows the connection to stay open for multiple full requests/full responses (one response per request). Still has full headers in the request and response but the connection is re-used and not closed. HTTP 1.1 also added some additional request methods (OPTIONS, PUT, DELETE, TRACE, CONNECT) which also have specific transactional meanings. However, as noted in the introduction to the HTTP 2.0 draft proposal, HTTP 1.1 pipelining is not widely deployed so this greatly limits the utility of HTTP 1.1 to solve latency between browsers and servers.
+Long-poll: sort of a "hack" to HTTP (either 1.0 or 1.1) where the server does not response immediately (or only responds partially with headers) to the client request. After a server response, the client immediately sends a new request (using the same connection if over HTTP 1.1).
+HTTP streaming: a variety of techniques (multipart/chunked response) that allow the server to send more than one response to a single client request. The W3C is standardizing this as Server-Sent Events using a text/event-stream MIME type. The browser API (which is fairly similar to the WebSocket API) is called the EventSource API.
+Comet/server push: this is an umbrella term that includes both long-poll and HTTP streaming. Comet libraries usually support multiple techniques to try and maximize cross-browser and cross-server support.
+WebSockets: a transport layer built-on TCP that uses an HTTP friendly Upgrade handshake. Unlike TCP, which is a streaming transport, WebSockets is a message based transport: messages are delimited on the wire and are re-assembled in-full before delivery to the application. WebSocket connections are bi-directional, full-duplex and long-lived. After the initial handshake request/response, there is no transactional semantics and there is very little per message overhead. The client and server may send messages at any time and must handle message receipt asynchronously.
+SPDY: a Google initiated proposal to extend HTTP using a more efficient wire protocol but maintaining all HTTP semantics (request/response, cookies, encoding). SPDY introduces a new framing format (with length-prefixed frames) and specifies a way to layering HTTP request/response pairs onto the new framing layer. Headers can be compressed and new headers can be sent after the connection has been established. There are real world implementations of SPDY in browsers and servers.
+HTTP 2.0: has similar goals to SPDY: reduce HTTP latency and overhead while preserving HTTP semantics. The current draft is derived from SPDY and defines an upgrade handshake and data framing that is very similar the the WebSocket standard for handshake and framing. An alternate HTTP 2.0 draft proposal (httpbis-speed-mobility) actually uses WebSockets for the transport layer and adds the SPDY multiplexing and HTTP mapping as an WebSocket extension (WebSocket extensions are negotiated during the handshake).
+WebRTC/CU-WebRTC: proposals to allow peer-to-peer connectivity between browsers. This may enable lower average and maximum latency communication because as the underlying transport is SDP/datagram rather than TCP. This allows out-of-order delivery of packets/messages which avoids the TCP issue of latency spikes caused by dropped packets which delay delivery of all subsequent packets (to guarantee in-order delivery).
+QUIC: is an experimental protocol aimed at reducing web latency over that of TCP. On the surface, QUIC is very similar to TCP+TLS+SPDY implemented on UDP. QUIC provides multiplexing and flow control equivalent to HTTP/2, security equivalent to TLS, and connection semantics, reliability, and congestion control equivalentto TCP. Because TCP is implemented in operating system kernels, and middlebox firmware, making significant changes to TCP is next to impossible. However, since QUIC is built on top of UDP, it suffers from no such limitations. QUIC is designed and optimised for HTTP/2 semantics.
+References:
+
+HTTP:
+Wikipedia HTTP Page
+W3C List of HTTP related Drafts/Protocols
+List of IETF HTTP/1.1 and HTTP/2.0 Drafts
+Server-Sent Event:
+W3C Server-Sent Events/EventSource Candidate Recommendation
+W3C Server-Sent Events/EventSource Draft
+WebSockets:
+IETF RFC 6455 WebSockets Protocol
+IETF RFC 6455 WebSocket Errata
+SPDY:
+IETF SPDY Draft
+HTTP 2.0:
+IETF HTTP 2.0 httpbis-http2 Draft
+IETF HTTP 2.0 httpbis-speed-mobility Draft
+IETF httpbis-network-friendly Draft - an older HTTP 2.0 related proposal
+WebRTC:
+W3C WebRTC API Draft
+List of IETF WebRTC Drafts
+IETF WebRTC Overview Draft
+IETF WebRTC DataChannel Draft
+Microsoft CU-WebRTC Proposal Start Page
+QUIC:
+QUIC Chrominum Project
+IETF QUIC Draft
+* Websockets cons
+** Static caching
+* What I'm missing
+** A query language for communication to model the data
+** Sophisticate Router
+* Future
+** Preact or a CLJS alternative
