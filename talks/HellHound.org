@@ -5,6 +5,13 @@
 ** People don't include UI in the whole system
    or try to reat it like other components of the system
 
+** Challenges we have
+*** Data stream to client side cause subs to run constantly
+** Current design
+*** Immutant
+*** Basilisk
+*** re-frame
+
 * Data model
 ** UI should as for the data in the way it needs. It should be able to predict the data format it's going to get
 ** Back pressure
