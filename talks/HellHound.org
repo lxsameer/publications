@@ -12,6 +12,7 @@
 *** Basilisk
 *** re-frame
 
+** There is no obviouse solution for today problems
 * Data model
 ** UI should as for the data in the way it needs. It should be able to predict the data format it's going to get
 ** Back pressure
@@ -129,3 +130,6 @@ IETF QUIC Draft
 ** Sophisticate Router
 * Future
 ** Preact or a CLJS alternative
+
+
+* Talk
