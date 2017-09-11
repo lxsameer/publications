@@ -1,0 +1,25 @@
+* Clojurescript
+** Getting Started
+*** Setup environment
+- Clone the repo
+- cd clojurescript
+- run script/bootstrap
+- copy clojure.jar into /lib
+- script/repl will start a properly-classpathed repl
+**** Starting the clojurescript repl
+- (require '[cljs.compiler :as comp])
+- (def jse (comp/repl-env))
+- (comp/repl jse)
+
+** What not to use
+*** nREPL
+Because people used it in the past and it tend to be the source of some problems.
+
+** Testing
+** CLJS tests
+fire up a repl by `./scripts/nodejsrepl` then require the namespace in question ( namespace of test for example
+cljs.core-test) and use `(cljs.test/test-vars [#'somens/testname])` to run the test
+*** Use `lein test` for complation tests and use a REPL for runtime test
+** Apply patch to a clone
+- Dry run the patch by `git patch --check CLJS-xxxx.patch`
+- Apply the patch by `git am < CLJS-xxxx.patch`
