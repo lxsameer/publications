@@ -1,5 +1,6 @@
 * Clojurescript
 ** Getting Started
+*** Sign the CA
 *** Setup environment
 - Clone the repo
 - cd clojurescript
@@ -11,6 +12,7 @@
 - (def jse (comp/repl-env))
 - (comp/repl jse)
 
+*** Find a right task todo
 ** What not to use
 *** nREPL
 Because people used it in the past and it tend to be the source of some problems.
