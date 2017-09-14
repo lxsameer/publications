@@ -1,0 +1,24 @@
+* Chapter 11 - Streams
+** Difference between log base messaging and jmt (AMPQ) style maessageing
+AMPQ style message consumption is destructive so by consuming a message its gone. but that's not the case for log based messaging
+** CDC
+It's a process of capturing changes on a data source and notify the downstream node.
+
+In CDC applications won't be aware of CDC.
+*** Log compaction and CDC
+Log compaction allows CDC to notify nodes only with the recent changes.
+
+*** Databus & wormhole are some example of such software
+*** Kafka Connect
+
+** Event Sourcing
+Event sourcing is the same as *CDC* but using *immutable* data.
+
+In Event sourcing application *ARE* aware of Event sourcing.
+*** Commands and Events
+*Commands* are what sent from client to server and *events* produce after validating and processing
+commands.
+
+One of important thing to remember is that nodes can not reject events. because by that time another node
+might seen that event as well. so stuff like checking for a valid user name and saving it, should either happpen
+in two events or the first part should be a validation process before firing the event.
