@@ -22,3 +22,5 @@ commands.
 One of important thing to remember is that nodes can not reject events. because by that time another node
 might seen that event as well. so stuff like checking for a valid user name and saving it, should either happpen
 in two events or the first part should be a validation process before firing the event.
+*** Stream checkpoints
+*** microbatching
