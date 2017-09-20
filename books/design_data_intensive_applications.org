@@ -24,3 +24,9 @@ might seen that event as well. so stuff like checking for a valid user name and 
 in two events or the first part should be a validation process before firing the event.
 *** Stream checkpoints
 *** microbatching
+*** Idempotence
+a job which has the same effect on the world. e.g writing to a key value store on the same key with the same value.
+But counters are not idempotence for instance.
+**** Assumptions
+Job should reply messages in order.
+**** Kafka & Samza have a topic with log compaction for be used for reply messages ( failed jobs )
