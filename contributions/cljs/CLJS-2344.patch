@@ -1,0 +1,28 @@
+From dd2c65ee7826e5ab88ebe483d4d08cbf4aee0db8 Mon Sep 17 00:00:00 2001
+From: Sameer Rahmani <lxsameer@gnu.org>
+Date: Thu, 21 Sep 2017 15:19:19 +0100
+Subject: [PATCH] distinct function applied to externs in load-externs function
+ in order to avoid dups
+
+---
+ src/main/clojure/cljs/closure.clj | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/main/clojure/cljs/closure.clj b/src/main/clojure/cljs/closure.clj
+index 733d3ad0..d1178db2 100644
+--- a/src/main/clojure/cljs/closure.clj
++++ b/src/main/clojure/cljs/closure.clj
+@@ -328,8 +328,8 @@
+                          ext)))
+         load-js (fn [ext]
+                   (map #(js-source-file (.getFile %) (slurp %)) ext))]
+-    (let [js-sources  (-> externs filter-js add-target load-js)
+-          ups-sources (-> ups-externs filter-cp-js load-js)
++    (let [js-sources  (-> (distinct externs) filter-js add-target load-js)
++          ups-sources (-> (distinct ups-externs) filter-cp-js load-js)
+           all-sources (vec (concat js-sources ups-sources))]
+       (cond->
+         (if use-only-custom-externs
+-- 
+2.11.0
+
