@@ -1,0 +1,48 @@
+From ede13f902e98a3d3e6405533f1145169ea503824 Mon Sep 17 00:00:00 2001
+From: Sameer Rahmani <lxsameer@gnu.org>
+Date: Fri, 22 Sep 2017 16:56:15 +0100
+Subject: [PATCH] CLJ-2240 support for loading user.cljc added to RT
+
+---
+ src/jvm/clojure/lang/RT.java | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/jvm/clojure/lang/RT.java b/src/jvm/clojure/lang/RT.java
+index a6552f74..3be78f4e 100644
+--- a/src/jvm/clojure/lang/RT.java
++++ b/src/jvm/clojure/lang/RT.java
+@@ -465,30 +465,31 @@ static void doInit() throws ClassNotFoundException, IOException{
+ 	load("clojure/core/specs/alpha");
+ 
+ 	Var.pushThreadBindings(
+ 			RT.mapUniqueKeys(CURRENT_NS, CURRENT_NS.deref(),
+ 			       WARN_ON_REFLECTION, WARN_ON_REFLECTION.deref()
+ 					,RT.UNCHECKED_MATH, RT.UNCHECKED_MATH.deref()));
+ 	try {
+ 		Symbol USER = Symbol.intern("user");
+ 		Symbol CLOJURE = Symbol.intern("clojure.core");
+ 
+ 		Var in_ns = var("clojure.core", "in-ns");
+ 		Var refer = var("clojure.core", "refer");
+ 		in_ns.invoke(USER);
+ 		refer.invoke(CLOJURE);
+ 		maybeLoadResourceScript("user.clj");
++		maybeLoadResourceScript("user.cljc");		
+ 
+ 		// start socket servers
+ 		Var require = var("clojure.core", "require");
+ 		Symbol SERVER = Symbol.intern("clojure.core.server");
+ 		require.invoke(SERVER);
+ 		Var start_servers = var("clojure.core.server", "start-servers");
+ 		start_servers.invoke(System.getProperties());
+ 	}
+ 	finally {
+ 		Var.popThreadBindings();
+ 	}
+ }
+ 
+ static public int nextID(){
+ 	return id.getAndIncrement();
+-- 
+2.11.0
+
