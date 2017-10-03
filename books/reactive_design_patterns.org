@@ -1,4 +1,5 @@
 #+STARTUP: inlineimages
+* NOTE: This book is quite boring and it insist that the only correct way is actore model
 * Chapter 1
 ** Reactive Manivesto
 *** Responsive
@@ -38,3 +39,7 @@ constituents. This means that Reactive Systems apply design principles so these 
 all levels of scale, making them composable. The largest systems in the world rely upon architectures
 based on these properties and serve the needs of billions of people daily. It is time to apply these
 design principles consciously from the start instead of rediscovering them each time.
+** Circute break pattern
+In this patter each service should monitor other services and redirect
+requests which to other nodes or reject them if underlaying service can't
+keep up.
