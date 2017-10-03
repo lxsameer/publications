@@ -50,6 +50,10 @@ I – Idempotent
 D – Distributed
 https://lostechies.com/jimmybogard/2013/06/06/acid-2-0-in-action/
 ** Conflict-free replicated data type (CRDT)
-An algorithm to merge ( rebase in fact) data on several nodes experienced a network partition.
+In distributed computing, a conflict-free replicated data type (CRDT) is a data structure which
+can be replicated across multiple computers in a network, where the replicas can be updated independently
+and concurrently without coordination between the replicas, and where it is always mathematically
+possible to resolve inconsistencies which might result.
+https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type
 *** Google doc and operational transformation
 https://en.wikipedia.org/wiki/Operational_transformation
