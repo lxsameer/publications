@@ -43,3 +43,13 @@ design principles consciously from the start instead of rediscovering them each 
 In this patter each service should monitor other services and redirect
 requests which to other nodes or reject them if underlaying service can't
 keep up.
+** ACID 2.0
+A – Associative
+C – Commutative
+I – Idempotent
+D – Distributed
+https://lostechies.com/jimmybogard/2013/06/06/acid-2-0-in-action/
+** Conflict-free replicated data type (CRDT)
+An algorithm to merge ( rebase in fact) data on several nodes experienced a network partition.
+*** Google doc and operational transformation
+https://en.wikipedia.org/wiki/Operational_transformation
