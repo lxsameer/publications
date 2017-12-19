@@ -1,0 +1,7 @@
+* Clojure Course
+** Ep 1
+*** Installing lein and running a REPL
+*** Working with Lein and Project.clj
+*** Possible Editors
+** Ep 2
+*** Concepts
