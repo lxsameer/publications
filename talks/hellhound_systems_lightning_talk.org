@@ -1,0 +1,11 @@
+* HellHound Systems
+** It's the most important part of HellHound
+** Basically every app should model its execution and data flow using systems.
+** My main inspriation for systems is Unix pipelines
+*** processes are totally seperated
+*** process communicate using stdin and stdout
+*** processes are composable
+*** processes are reusable
+** Systems are made from components
+** Each component manage its own state
+** Each component has its own input and output streams
