@@ -1,0 +1,4 @@
+* Core.async
+** Highlights
+*** It's create with concurrency in mind not parallel processing
+*** It's easy to starve the thread pool by using blocking IO in go blocks
